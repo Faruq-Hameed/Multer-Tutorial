@@ -1,9 +1,10 @@
 const MongoClient = require('mongodb').MongoClient
+const mongoose = require('mongoose');
 const MONGODB_URL = process.env.MONGODB_URL
 const PORT = process.env.PORT || 3000
 
 const startServer = async (app) => {
-  MongoClient.connect(MONGODB_URL)
+    mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log("Connected to local database successfully");
     })
