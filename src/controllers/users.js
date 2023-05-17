@@ -29,7 +29,8 @@ const createUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) =>{
-    User.findOne({})
+    User.find({})
+    .limit(5)
     .then(users => {
         res
         .status(StatusCodes.OK)
