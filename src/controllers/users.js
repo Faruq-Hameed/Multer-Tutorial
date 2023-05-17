@@ -28,5 +28,19 @@ const createUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) =>{
+    User.findOne({})
+    .then(users => {
+        res
+        .status(StatusCodes.OK)
+        .json({ allUsers: users });
+    })
+    .catch(err => {
+        res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Internal server error", error: err });
+    });
+}
 
-module.exports = {createUser}
+
+module.exports = {createUser, getAllUsers}
