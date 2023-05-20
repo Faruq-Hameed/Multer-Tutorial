@@ -17,4 +17,8 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Multer Express MongoDB tutorial!');
   });
 
+//middleware to handle unknown routes requests  
+app.get('*', (req, res) => {
+    res.status(404).send('unknown url')
+})
 connectDb(app)
