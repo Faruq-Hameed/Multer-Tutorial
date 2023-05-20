@@ -1,5 +1,7 @@
 const StatusCodes = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+const multer = require('multer');
+
 const User = require("../models/user");
 const JWT_SIGNATURE = process.env.JWT_SIGNATURE;
 
@@ -43,19 +45,22 @@ const getAllUsers = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.find({ email });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
     if (!user) {
       return res
         .status(StatusCodes.default.UNAUTHORIZED)
         .json({
-          error: `Authentication failed!. User with email ${email}  not found`,
+          error: `Authentication failed!. User with username ${username}  not found`,
         });
     }
-    //compare the password if the email is found
-    const isPasswordMatch = user.comparePassword(password);
+    //compare the password if the username is found
+
+    const isPasswordMatch = await user.comparePassword(password);
     if (isPasswordMatch) {
-      const token = jwt.sign({ userId: user._id, JWT_SIGNATURE });
+      console.log({JWT_SIGNATURE})
+
+      const token = jwt.sign({ userId: user._id}, JWT_SIGNATURE );
       res.status(200).json({ token });
     } else {
       res
@@ -65,7 +70,6 @@ const login = async (req, res) => {
         });
     }
   } catch (err) {
-    console.log(err.message);
     res
       .status(StatusCodes.default.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal server error" });

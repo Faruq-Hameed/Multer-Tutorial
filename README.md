@@ -9,6 +9,6 @@
     mongodb; 
     mongoose; 
     morgan; 
-    multer;
+- multer: Multer.js is a middleware for handling file uploads in Node.js applications
 
 
