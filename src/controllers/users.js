@@ -9,36 +9,35 @@ const createUser = async (req, res) => {
   try {
     const userAlreadyExist = await User.findOne({ username }, "username");
     if (userAlreadyExist) {
-      return res.status(StatusCodes.CONFLICT).json({
+      return res.status(StatusCodes.StatusCodes.CONFLICT).json({
         message: `username, ${userAlreadyExist.username} already exists`,
       });
     }
 
-    await User.create({ ...req.body }).then(() => {
-      res
-        .status(StatusCodes.OK)
-        .json({ message: "User registered successfully" });
-    });
+    await User.create({ ...req.body });
+    res
+      .status(StatusCodes.StatusCodes.OK)
+      .json({ message: "User registered successfully" });
   } 
   catch (err) {
     console.error("Error creating user: " + err.message);
     res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(StatusCodes.StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal server error" });
   }
 };
 
 const getAllUsers = async (req, res) =>{
     User.find({})
-    .limit(5)
+    .limit(req.query.limit * 1) //if present. Multiply by 1 to avoid error(incase non integer value is passed)
     .then(users => {
         res
         .status(StatusCodes.OK)
-        .json({ allUsers: users });
+        .json({ data: users });
     })
     .catch(err => {
         res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(StatusCodes.StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal server error", error: err });
     });
 }
