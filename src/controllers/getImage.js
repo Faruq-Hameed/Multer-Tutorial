@@ -50,22 +50,47 @@ const getImage = async (req, res) => {
 //   };
 
 // Retrieve all pictures
-getAllImages =  async  (req, res) => {
-  const directory = 'uploads/';
+// const getAllImages =  async  (req, res) => {
+//   const directory = 'uploads/';
 
-  fs.readdir(directory, (err, files) => {
-    if (err) {
-      res.status(500).json({ error: 'Internal server error' });
-    } else {
-      const images = files.filter((file) => {
-        const extension = path.extname(file).toLowerCase();
-        return ['.jpg', '.jpeg', '.png', '.gif'].includes(extension);
-      });
+//   fs.readdir(directory, (err, files) => {
+//     if (err) {
+//       res.status(500).json({ error: 'Internal server error' });
+//     } else {
+//       const images = files.filter((file) => {
+//         const extension = path.extname(file).toLowerCase();
+//         return ['.jpg', '.jpeg', '.png', '.gif'].includes(extension);
+//       });
 
-      res.json({ images });
-    }
-  });
-};
+//       res.json({ images });
+//     }
+//   });
+// };
+
+const mime = require('mime');
+
+// Get all pictures route
+const getAllImages =  async  (req, res) => {
+    try {
+        const pictures = fs.readdirSync('uploads/');
+        pictures.forEach((filename) => {
+          const filePath = path.join('uploads/', filename);
+          const fileStream = fs.createReadStream(filePath);
+          const contentType = mime.getType(filePath);
+    
+          res.set({
+            'Content-Disposition': `inline; filename="${filename}"`,
+            'Content-Type': contentType,
+          });
+    
+          fileStream.pipe(res);
+        });
+      } catch (error) {
+        console.error('Get pictures error:', error);
+        res.status(500).json({ message: 'Failed to retrieve pictures' });
+      }
+  };
+
 
 module.exports = {getImage,getAllImages}
 

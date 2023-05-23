@@ -12,8 +12,8 @@
 - multer: Multer.js is a middleware for handling file uploads in Node.js applications
 
 ### ROUTES
-- [http://localhost:3000/api/register](http://localhost:3000/api/register) ^^ User sign up with username and password
-- [http://localhost:3000/api/login](http://localhost:3000/api/login) ^^ User login with username and password
-- [http://localhost:3000/api/upload](http://localhost:3000/api/upload) ^^ Picture upload route
-- [http://localhost:3000/api/uploadimages/](http://localhost:3000/api/images/) ^^ fetching pictures route
+- [http://localhost:3000/register](http://localhost:3000/register) ^^ User sign up with username and password
+- [http://localhost:3000/login](http://localhost:3000/login) ^^ User login with username and password
+- [http://localhost:3000/upload](http://localhost:3000/upload) ^^ Picture upload route
+- [http://localhost:3000/images/](http://localhost:3000/images/) ^^ fetching pictures route
 
