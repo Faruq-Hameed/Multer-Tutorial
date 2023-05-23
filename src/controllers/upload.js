@@ -18,6 +18,7 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     // Accept only certain file types
+    console.log({file})
     if (
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/png" ||
